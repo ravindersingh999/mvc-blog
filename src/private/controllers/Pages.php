@@ -17,6 +17,7 @@ class Pages extends Controller
 
     public function login()
     {
+        global $settings;
         // $postdata = $_POST ?? array();
         
         // $user = $this->model('Users')::find_by_username('admin');
@@ -29,7 +30,28 @@ class Pages extends Controller
             
         //     header("Location: /public/admin/dashboard");
         // }
+        if (isset($_POST['login'])) {
+            if ($this->model('Users')::find_by_email($_POST['email'])) {
+                $row = $this->model('Users')::find_by_email($_POST['email']);
+                if ($row->password == $_POST['password']) {
+                    // var_dump($row);
+                    if ($row->role == "admin") {
+                        header("location:".$settings['siteurl']."/admin/dashboard");
+                    } else {
+                        if ($row->status == "approved") {
+                            header('location:'.$settings["siteurl"].'/pages/user/profile');
+                        } else {
+                            echo "Application not approved yet";
+                        }
+                    }
 
+                } else {
+                    echo "Wrong password";
+                }
+            } else {
+                echo "Please sign up first";
+            }
+        }
         $this->view('pages/login/header');
         $this->view('pages/login/main');
         $this->view('pages/login/footer');
@@ -44,7 +66,7 @@ class Pages extends Controller
             $user->name = $postdata['name'];
             $user->email = $postdata['email'];
             $user->password = $postdata['password'];
-            $user->status = "pending";
+            // $user->status = "pending";
              
             if (empty($user->username) || empty($user->name) || empty($user->email) || empty($user->password)) {
                 $_SESSION['msg'] = "**Please fill all details";
@@ -57,5 +79,10 @@ class Pages extends Controller
         $this->view('pages/register/header');
         $this->view('pages/register/main', $data);
         $this->view('pages/register/footer');
+    }
+
+    public function user()
+    {
+        $this->view('pages/user/profile');
     }
 }
