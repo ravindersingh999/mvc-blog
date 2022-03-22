@@ -15,61 +15,62 @@ class Pages extends Controller
         die("home page");
     }
 
+    public function admin()
+    {
+        $users = $this->model('Users')::all();
+        
+        // echo $users[0]->email;
+        $this->view('pages/admin/profile', $users);
+    }
+
     public function login()
     {
         global $settings;
-        // $postdata = $_POST ?? array();
-        
-        // $user = $this->model('Users')::find_by_username('admin');
-
-        // if ($user->user_id) {
-        //     $_SESSION['userdata'] = array(
-        //         'user_id'=>$user->user_id,
-        //         'username'=>$user->username,
-        //         'email'=>$user->email);
-            
-        //     header("Location: /public/admin/dashboard");
-        // }
         if (isset($_POST['login'])) {
             if ($this->model('Users')::find_by_email($_POST['email'])) {
                 $row = $this->model('Users')::find_by_email($_POST['email']);
                 if ($row->password == $_POST['password']) {
                     // var_dump($row);
                     if ($row->role == "admin") {
-                        header("location:".$settings['siteurl']."/admin/dashboard");
+                        header('location:'.$settings["siteurl"].'/pages/admin');
                     } else {
                         if ($row->status == "approved") {
-                            header('location:'.$settings["siteurl"].'/pages/user/profile');
+                            header('location:'.$settings["siteurl"].'/pages/user');
                         } else {
-                            echo "Application not approved yet";
+                            $_SESSION['msg'] = "**Application not approved yet";
                         }
                     }
 
                 } else {
-                    echo "Wrong password";
+                    $_SESSION['msg'] = "**Wrong password";
                 }
             } else {
-                echo "Please sign up first";
+                $_SESSION['msg'] = "**Please fill deltais";
             }
         }
         $this->view('pages/login/header');
         $this->view('pages/login/main');
         $this->view('pages/login/footer');
+        
     }
 
     public function register()
     {
         $postdata = $_POST ?? array();
         if (isset($postdata['username']) && isset($postdata['name']) && isset($postdata['email']) && isset($postdata['password'])) {
+            $row = $this->model('Users')::find_by_email($_POST['email']);
             $user = $this->model('Users');
             $user->username = $postdata['username'];
             $user->name = $postdata['name'];
             $user->email = $postdata['email'];
             $user->password = $postdata['password'];
-            // $user->status = "pending";
+            $user->role = "user";
+            $user->status = "pending";
              
             if (empty($user->username) || empty($user->name) || empty($user->email) || empty($user->password)) {
                 $_SESSION['msg'] = "**Please fill all details";
+            } elseif ($row->email == $_POST['email']) {
+                $_SESSION['msg'] = "**Email already exists";
             } else {
                 $user->save();
             }
@@ -83,6 +84,54 @@ class Pages extends Controller
 
     public function user()
     {
-        $this->view('pages/user/profile');
+        $blogs = $this->model('Blogs')::all();
+        
+        // echo $blogs[1]->content;
+        $this->view('pages/user/profile',$blogs);
+
+    }
+
+    public function status()
+    {
+        global $settings;
+        if (isset($_POST['change'])) {
+            if ($this->model('Users')::find_by_user_id($_POST['id'])) {
+                $row = $this->model('Users')::find_by_user_id($_POST['id']);
+                // $user = $this->model('Users');
+                // print_r($row);
+                if ($row->status == "pending") {
+                    $row->status = "approved";
+                    // print_r($row->status);
+                } else {
+                    $row->status = "pending";
+                    // print_r($row->status);
+                }
+                
+            }
+            $row->save();
+            header('location:'.$settings["siteurl"].'/pages/admin');
+             
+        }
+        if (isset($_POST['delete'])) {
+            if ($this->model('Users')::find_by_user_id($_POST['id'])) {
+                $row = $this->model('Users')::find_by_user_id($_POST['id']);
+
+                $row->delete();
+                header('location:'.$settings["siteurl"].'/pages/admin');
+            }
+        }
+        $this->view(''.$settings["siteurl"].'/pages/admin');
+    }
+
+    public function addBlog()
+    {
+        $postdata = $_POST ?? array();
+        if (isset($postdata['title']) && isset($postdata['content'])) {
+            $blog = $this->model('Blogs');
+            $blog->title = $postdata['title'];
+            $blog->content = $postdata['content'];
+            $blog->save();
+        }
+        $this->view('pages/addBlog');
     }
 }

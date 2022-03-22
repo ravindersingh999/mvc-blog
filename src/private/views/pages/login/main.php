@@ -18,6 +18,9 @@
         <input type="checkbox" value="remember-me"> Remember me
       </label>
     </div>
+    <div class="form-floating text-danger">
+        <?php echo isset($_SESSION['msg'])?$_SESSION['msg']:""; ?>
+    </div>
     <button class="w-100 btn btn-lg btn-primary" name="login" type="submit">Sign in</button>
     <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
   </form>

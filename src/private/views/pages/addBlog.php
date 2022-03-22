@@ -1,6 +1,3 @@
-<?php
-global $settings;
-?>
 <!doctype html>
 <html lang="en">
 
@@ -55,42 +52,47 @@ global $settings;
       </div>
     </div>
   </header>
-
   <div class="container-fluid">
     <div class="row">
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
         <div class="position-sticky pt-3">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="addBlog">
+              <a class="nav-link active" aria-current="page" href="user">
                 <span data-feather="home"></span>
-                Add blog
+                Blog
               </a>
             </li>
+
           </ul>
         </div>
       </nav>
+
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">Add Blog</h1>
+        </div>
+
+        <form class="row g-3" method="POST" action="">
+          <!-- <div class="col-md-6">
+            <label for="p_id" class="form-label">Blog ID</label>
+            <input type="text" class="form-control" id="p_id" name="p_id">
+          </div> -->
+          <div class="col-md-7">
+            <label for="title" class="form-label">Blog Title</label>
+            <input type="text" class="form-control" id="title" name="title">
+          </div>
+          <div class="col-md-7">
+            <label for="content" class="form-label">Blog Content</label>
+            <input type="text" class="form-control" id="content" name="content">
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary" name="add">Add Blog</button>
+          </div>
+        </form>
+      </main>
     </div>
   </div>
-
-  <?php
-
-  $html = "";
-  foreach ($data as $k => $v) {
-    $html .= '<div class="container">
-    <div class="card mt-5" style="width:20rem height=20rem;">
-      <div class="card-body">
-        <h5 class="card-title">' . $v->title . '</h5>
-        <p class="card-text">' . $v->content . '</p>
-        <form action="edit" method="post"><button type="submit" name="submit" style="padding:10px">Edit</button><input type="text" hidden name="id" value="<?php echo $k->id; ?>"> </form>
-      </div>
-    </div>
-  </div>';
-  }
-  echo $html;
-
-  ?>
-
 
 
   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
