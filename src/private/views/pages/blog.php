@@ -50,9 +50,6 @@ global $settings;
     </button>
     <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
     <div class="navbar-nav">
-      <div class="nav-item text-nowrap">
-        <a class="nav-link px-3" href="login">Sign out</a>
-      </div>
     </div>
   </header>
 
@@ -62,9 +59,9 @@ global $settings;
         <div class="position-sticky pt-3">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="addBlog">
+              <a class="nav-link active" aria-current="page" href="admin">
                 <span data-feather="home"></span>
-                Add Blog
+                Dashboard
               </a>
             </li>
           </ul>
@@ -83,7 +80,7 @@ global $settings;
                 <div class="card-body">
                     <h5 class="card-title">' . $v->title . '</h5>
                     <p class="card-text">' . $v->content . '</p>
-                    <form action="editBlog" method="post"><button type="submit" name="edit">Edit</button><input type="hidden" name="id" value=' . $v->blog_id . '> </form>
+                    <form action="deleteBlog" method="post"><button type="submit" name="delete">Delete</button><input type="hidden" name="id" value=' . $v->blog_id . '> </form>
                 </div>
                 </div>
             </div>';

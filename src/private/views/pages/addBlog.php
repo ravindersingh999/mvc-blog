@@ -47,9 +47,6 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="navbar-nav">
-      <div class="nav-item text-nowrap">
-        <a class="nav-link px-3" href="#">Sign out</a>
-      </div>
     </div>
   </header>
   <div class="container-fluid">
@@ -74,17 +71,13 @@
         </div>
 
         <form class="row g-3" method="POST" action="">
-          <!-- <div class="col-md-6">
-            <label for="p_id" class="form-label">Blog ID</label>
-            <input type="text" class="form-control" id="p_id" name="p_id">
-          </div> -->
           <div class="col-md-7">
             <label for="title" class="form-label">Blog Title</label>
             <input type="text" class="form-control" id="title" name="title">
           </div>
           <div class="col-md-7">
-            <label for="content" class="form-label">Blog Content</label>
-            <input type="text" class="form-control" id="content" name="content">
+            <label for="content" class="form-label" >Blog Content</label>
+            <input type="text" class="form-control" id="content" name="content" style=”height:100px;width:100px“>
           </div>
           <div class="col-12">
             <button type="submit" class="btn btn-primary" name="add">Add Blog</button>

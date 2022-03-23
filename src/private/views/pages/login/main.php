@@ -1,5 +1,3 @@
-
-    
 <main class="form-signin">
   <form action="" method="POST">
     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
@@ -19,9 +17,11 @@
       </label>
     </div>
     <div class="form-floating text-danger">
-        <?php echo isset($_SESSION['msg'])?$_SESSION['msg']:""; ?>
+      <?php echo isset($_SESSION['msg']) ? $_SESSION['msg'] : ""; ?>
     </div>
-    <button class="w-100 btn btn-lg btn-primary" name="login" type="submit">Sign in</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+    <button class="w-100 btn btn-lg btn-success" name="login" type="submit">Sign in</button>
   </form>
+  <p class="mt-2">New User?<a href="register">Sign Up</a></p>
+  
+  <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
 </main>
